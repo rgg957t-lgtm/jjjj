@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="th" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Anti-Fungal IoT Packaging</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome 6.5.1 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            950: '#052e16',
+                        },
+                        tech: {
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            950: '#083344',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .light .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 transition-colors duration-300 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-tech-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    <i class="fa-solid fa-box-tissue"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-lg text-white leading-none block">Bio-IoT Packaging</span>
+                    <span class="text-xs text-brand-400 font-medium">Smart Anti-Fungal Logistics System</span>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+                <a href="#overview" class="hover:text-brand-400 transition">ที่มาและความสำคัญ</a>
+                <a href="#viewer3d" class="hover:text-brand-400 transition">โครงสร้าง 3D</a>
+                <a href="#telemetry" class="hover:text-brand-400 transition">IoT Telemetry</a>
+                <a href="#calculator" class="hover:text-brand-400 transition">คำนวณความเสี่ยง</a>
+                <a href="#experiment" class="hover:text-brand-400 transition">ผลการทดลอง</a>
+                <a href="#bcg" class="hover:text-brand-400 transition">โมเดล BCG</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-sun" id="themeIcon"></i>
+                </button>
+                <button onclick="openModal()" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs sm:text-sm font-medium rounded-xl shadow-md transition flex items-center space-x-2">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>รายงานวิจัย</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10 w-full">
+
+        <!-- Banner -->
+        <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-brand-950 text-white p-8 md:p-12 shadow-2xl border border-slate-700">
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+                        <span>งานวิจัยและพัฒนานวัตกรรมเกษตรแม่นยำ</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+                        บรรจุภัณฑ์อัจฉริยะยับยั้งเชื้อรา <br class="hidden sm:inline">
+                        <span class="bg-gradient-to-r from-brand-400 to-tech-500 bg-clip-text text-transparent">ด้วยสารสกัดชีวภาพและระบบ IoT</span>
+                    </h1>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed max-w-3xl">
+                        ยกระดับการขนส่งผลผลิตทางการเกษตรแบบ Active Packaging ผสานสารสกัดไมโครแคปซูลจากสมุนไพร ควบคุมการปลดปล่อยสารยับยั้งเชื้อราด้วยเซ็นเซอร์ IoT เพื่อลดอัตราการเน่าเสียอย่างแม่นยำ
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#telemetry" class="px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 font-semibold shadow-lg transition flex items-center space-x-2 text-sm">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            <span>ทดลองระบบ IoT</span>
+                        </a>
+                        <a href="#viewer3d" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 font-semibold border border-slate-600 transition flex items-center space-x-2 text-sm">
+                            <i class="fa-solid fa-cube"></i>
+                            <span>สำรวจกล่อง 3D</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-4 grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl bg-slate-800/60 border border-slate-700 text-center">
+                        <div class="text-3xl font-bold text-brand-400">+200%</div>
+                        <div class="text-xs text-slate-300 mt-1">ยืดอายุการเก็บรักษา</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-800/60 border border-slate-700 text-center">
+                        <div class="text-3xl font-bold text-tech-500">94.8%</div>
+                        <div class="text-xs text-slate-300 mt-1">ยับยั้งสปอร์รา</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-800/60 border border-slate-700 text-center">
+                        <div class="text-3xl font-bold text-amber-400">-75%</div>
+                        <div class="text-xs text-slate-300 mt-1">ลดความสูญเสีย</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-800/60 border border-slate-700 text-center">
+                        <div class="text-3xl font-bold text-emerald-400">100%</div>
+                        <div class="text-xs text-slate-300 mt-1">ย่อยสลายได้</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3D Explorer -->
+        <section id="viewer3d" class="glass-card rounded-3xl p-6 space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold flex items-center space-x-2">
+                        <i class="fa-solid fa-cube text-brand-400"></i>
+                        <span>แบบจำลองโครงสร้างบรรจุภัณฑ์ 3 มิติ (3D Interactive Viewer)</span>
+                    </h2>
+                    <p class="text-xs text-slate-400">คลิกลากเพื่อหมุน สกรอลล์เพื่อซูมเข้า-ออก</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="btnExplode" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-xl shadow transition">
+                        <i class="fa-solid fa-layer-group mr-1"></i> แยกส่วนประกอบ (Explode View)
+                    </button>
+                </div>
+            </div>
+            <div class="relative w-full h-[380px] bg-slate-900 rounded-2xl overflow-hidden border border-slate-800">
+                <div id="threejs-canvas" class="w-full h-full"></div>
+            </div>
+        </section>
+
+        <!-- IoT Dashboard -->
+        <section id="telemetry" class="glass-card rounded-3xl p-6 space-y-6">
+            <h2 class="text-xl font-bold flex items-center space-x-2">
+                <i class="fa-solid fa-network-wired text-tech-500"></i>
+                <span>ระบบจำลองข้อมูล IoT Telemetry และการสั่งการแบบ Real-time</span>
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+                    <h3 class="font-bold text-xs text-slate-300 uppercase">จำลองสภาวะแวดล้อม</h3>
+                    <button onclick="setScenario('normal')" class="w-full text-left p-2.5 text-xs rounded-xl bg-slate-800 hover:bg-slate-700 transition">🟢 สภาวะปกติ (22°C / 65% RH)</button>
+                    <button onclick="setScenario('warning')" class="w-full text-left p-2.5 text-xs rounded-xl bg-slate-800 hover:bg-slate-700 transition">🟡 ความชื้นสูง (28°C / 84% RH)</button>
+                    <button onclick="setScenario('danger')" class="w-full text-left p-2.5 text-xs rounded-xl bg-slate-800 hover:bg-slate-700 transition">🔴 สปอร์สุ่มเสี่ยง (34°C / 96% RH)</button>
+                    <button onclick="triggerSpray()" class="w-full py-2.5 bg-tech-600 hover:bg-tech-500 text-white rounded-xl text-xs font-bold transition">
+                        <i class="fa-solid fa-spray-can mr-1"></i> สั่งพ่นสารชีวภาพทันที
+                    </button>
+                </div>
+
+                <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                        <span class="text-xs text-slate-400">อุณหภูมิ (Temperature)</span>
+                        <div class="text-3xl font-extrabold text-amber-400 my-2"><span id="tempVal">23.5</span> °C</div>
+                        <span class="text-[11px] text-slate-500">ปกติ: 15 - 25 °C</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                        <span class="text-xs text-slate-400">ความชื้นสัมพัทธ์ (RH)</span>
+                        <div class="text-3xl font-extrabold text-blue-400 my-2"><span id="rhVal">65.0</span> %</div>
+                        <span class="text-[11px] text-slate-500">เสี่ยงเชื้อรา: > 80%</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                        <span class="text-xs text-slate-400">สถานะ Bio-Dispenser</span>
+                        <div class="text-xl font-bold text-emerald-400 my-2" id="statusVal">STANDBY</div>
+                        <span class="text-[11px] text-slate-500" id="lastSprayText">พ่นล่าสุด: 10 นาทีที่แล้ว</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 h-64">
+                <canvas id="telemetryChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Calculator -->
+        <section id="calculator" class="glass-card rounded-3xl p-6 space-y-6">
+            <h2 class="text-xl font-bold">เครื่องมือคำนวณอัตราความเสี่ยงสปอร์ราและอายุการเก็บรักษา</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4 bg-slate-900 p-6 rounded-2xl border border-slate-800">
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold mb-2">
+                            <span>อุณหภูมิ: <b id="lblTemp" class="text-amber-400">25 °C</b></span>
+                        </div>
+                        <input type="range" id="rngTemp" min="10" max="40" value="25" class="w-full accent-amber-500">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold mb-2">
+                            <span>ความชื้นสัมพัทธ์: <b id="lblRH" class="text-blue-400">70 %</b></span>
+                        </div>
+                        <input type="range" id="rngRH" min="40" max="98" value="70" class="w-full accent-blue-500">
+                    </div>
+                    <div class="flex items-center space-x-2 pt-2">
+                        <input type="checkbox" id="chkBio" checked class="w-4 h-4 accent-brand-500">
+                        <label for="chkBio" class="text-xs font-semibold">เปิดใช้งาน สารชีวภาพ Active Bio-Capsule</label>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center space-y-2">
+                        <span class="text-xs text-slate-400">โอกาสเกิดเชื้อรา</span>
+                        <div id="resRisk" class="text-3xl font-extrabold text-emerald-400">12%</div>
+                        <span id="resBadge" class="text-[10px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold inline-block">เสี่ยงต่ำ</span>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center space-y-2">
+                        <span class="text-xs text-slate-400">อายุเก็บรักษาคาดการณ์</span>
+                        <div id="resDays" class="text-3xl font-extrabold text-brand-400">15 วัน</div>
+                        <span class="text-[11px] text-slate-400">นานกว่าปกติ 2.5 เท่า</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experiments -->
+        <section id="experiment" class="glass-card rounded-3xl p-6 space-y-6">
+            <h2 class="text-xl font-bold">ผลการทดลองเปรียบเทียบเชิงประสิทธิภาพ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 h-64">
+                    <h3 class="text-xs font-bold mb-2">อัตราการเน่าเสียสะสม (%)</h3>
+                    <canvas id="chartSpoilage"></canvas>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 h-64">
+                    <h3 class="text-xs font-bold mb-2">อายุการเก็บรักษาแยกตามประเภทผลไม้ (วัน)</h3>
+                    <canvas id="chartShelf"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- BCG Model -->
+        <section id="bcg" class="glass-card rounded-3xl p-6 space-y-4">
+            <h2 class="text-xl font-bold">การขับเคลื่อนตามโมเดลเศรษฐกิจ BCG</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-5 rounded-2xl bg-emerald-950/40 border border-emerald-800/50 space-y-2">
+                    <div class="text-lg font-bold text-emerald-400">Bio Economy</div>
+                    <p class="text-xs text-slate-300 leading-relaxed">ใช้สารสกัดชีวภาพจากข่า พริกไทย และอบเชย ทดแทนสารเคมีสังเคราะห์เพื่อเพิ่มมูลค่าสมุนไพรไทย</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-blue-950/40 border border-blue-800/50 space-y-2">
+                    <div class="text-lg font-bold text-blue-400">Circular Economy</div>
+                    <p class="text-xs text-slate-300 leading-relaxed">บรรจุภัณฑ์กระดาษย่อยสลายได้ 100% พร้อมวงจรถอดนำโมดูล IoT กลับมาหมุนเวียนใช้ใหม่</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-teal-950/40 border border-teal-800/50 space-y-2">
+                    <div class="text-lg font-bold text-teal-400">Green Economy</div>
+                    <p class="text-xs text-slate-300 leading-relaxed">ลดความสูญเสียขยะอาหาร (Food Waste) และลดคาร์บอนฟุตพริ้นท์ตลอดห่วงโซ่อุปทาน</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div id="paperModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 max-w-xl w-full rounded-2xl p-6 space-y-4">
+            <h3 class="text-lg font-bold">รายงานวิจัยฉบับย่อ</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                การวิจัยนี้สำเร็จด้วยการบูรณาการไมโครแคปซูลสารชีวภาพร่วมกับระบบเซ็นเซอร์ IoT เพื่อควบคุมสปอร์เชื้อรา <i>Aspergillus niger</i> ในบรรจุภัณฑ์ขนส่งผลไม้เมืองร้อน ผลการทดลองยืนยันว่าช่วยยืดอายุสินค้าเกษตรได้สูงสุด 200% และลดความสูญเสียหลังการเก็บเกี่ยวได้ถึง 75%
+            </p>
+            <div class="flex justify-end pt-2">
+                <button onclick="closeModal()" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-xl">ปิดหน้าต่าง</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 Smart Anti-Fungal Packaging Research. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript logic -->
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light');
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function openModal() { document.getElementById('paperModal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('paperModal').classList.add('hidden'); }
+
+        // 3D Scene safely initialized
+        let scene, camera, renderer, boxGroup, lid, tray, sensor;
+        let isExploded = false;
+
+        function init3D() {
+            const container = document.getElementById('threejs-canvas');
+            if(!container) return;
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0f172a);
+
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(22, 18, 25);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            if (typeof THREE.OrbitControls !== 'undefined') {
+                const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+            }
+
+            const light1 = new THREE.DirectionalLight(0xffffff, 0.9);
+            light1.position.set(10, 20, 15);
+            scene.add(light1);
+            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+
+            boxGroup = new THREE.Group();
+            scene.add(boxGroup);
+
+            // Outer Box
+            const boxGeo = new THREE.BoxGeometry(14, 7, 10);
+            const boxMat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.5 });
+            const box = new THREE.Mesh(boxGeo, boxMat);
+            boxGroup.add(box);
+
+            // Lid
+            const lidGeo = new THREE.BoxGeometry(14.4, 1.2, 10.4);
+            const lidMat = new THREE.MeshStandardMaterial({ color: 0xb45309 });
+            lid = new THREE.Mesh(lidGeo, lidMat);
+            lid.position.y = 4;
+            boxGroup.add(lid);
+
+            // Tray
+            const trayGeo = new THREE.BoxGeometry(13, 2.5, 9);
+            const trayMat = new THREE.MeshStandardMaterial({ color: 0x22c55e });
+            tray = new THREE.Mesh(trayGeo, trayMat);
+            tray.position.y = -1;
+            boxGroup.add(tray);
+
+            // Sensor
+            const sensorGeo = new THREE.CylinderGeometry(1, 1, 0.6, 16);
+            const sensorMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4 });
+            sensor = new THREE.Mesh(sensorGeo, sensorMat);
+            sensor.position.y = 2.8;
+            boxGroup.add(sensor);
+
+            function animate() {
+                requestAnimationFrame(animate);
+                boxGroup.rotation.y += 0.003;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        document.getElementById('btnExplode').addEventListener('click', () => {
+            isExploded = !isExploded;
+            lid.position.y = isExploded ? 9 : 4;
+            sensor.position.y = isExploded ? 6 : 2.8;
+            tray.position.y = isExploded ? -5 : -1;
+        });
+
+        // Charts
+        let telemetryChart;
+        function initCharts() {
+            const ctx1 = document.getElementById('telemetryChart').getContext('2d');
+            telemetryChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['10:00', '10:05', '10:10', '10:15', '10:20', '10:25'],
+                    datasets: [
+                        { label: 'อุณหภูมิ (°C)', data: [22, 23, 23.5, 24, 23.8, 23.5], borderColor: '#f59e0b', tension: 0.3 },
+                        { label: 'ความชื้น (%RH)', data: [60, 62, 65, 64, 65, 65], borderColor: '#3b82f6', tension: 0.3 }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            const ctx2 = document.getElementById('chartSpoilage').getContext('2d');
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: ['Day 0', 'Day 4', 'Day 8', 'Day 12', 'Day 16', 'Day 20'],
+                    datasets: [
+                        { label: 'กล่องธรรมดา', data: [0, 20, 50, 75, 95, 100], borderColor: '#ef4444' },
+                        { label: 'Smart IoT Packaging', data: [0, 2, 6, 12, 18, 25], borderColor: '#22c55e' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            const ctx3 = document.getElementById('chartShelf').getContext('2d');
+            new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: ['สตรอว์เบอร์รี', 'ทุเรียนตัดแต่ง', 'มะม่วงสุก'],
+                    datasets: [
+                        { label: 'กล่องทั่วไป', data: [4, 3, 6], backgroundColor: '#64748b' },
+                        { label: 'Smart IoT Box', data: [14, 10, 18], backgroundColor: '#06b6d4' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        // Scenario Setter
+        function setScenario(type) {
+            let t = 23.5, rh = 65, st = "STANDBY";
+            if (type === 'warning') { t = 28.4; rh = 84; st = "MONITORING"; }
+            if (type === 'danger') { t = 34.2; rh = 96; st = "ACTIVE SPRAY"; }
+            
+            document.getElementById('tempVal').innerText = t;
+            document.getElementById('rhVal').innerText = rh;
+            document.getElementById('statusVal').innerText = st;
+
+            telemetryChart.data.labels.push(new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}));
+            telemetryChart.data.datasets[0].data.push(t);
+            telemetryChart.data.datasets[1].data.push(rh);
+            if(telemetryChart.data.labels.length > 7) {
+                telemetryChart.data.labels.shift();
+                telemetryChart.data.datasets[0].data.shift();
+                telemetryChart.data.datasets[1].data.shift();
+            }
+            telemetryChart.update();
+        }
+
+        function triggerSpray() {
+            document.getElementById('statusVal').innerText = "DISPENSING...";
+            setTimeout(() => {
+                document.getElementById('statusVal').innerText = "STANDBY";
+                document.getElementById('lastSprayText').innerText = "พ่นล่าสุด: เมื่อสักครู่นี้";
+            }, 2000);
+        }
+
+        // Calculator logic
+        const rngTemp = document.getElementById('rngTemp');
+        const rngRH = document.getElementById('rngRH');
+        const chkBio = document.getElementById('chkBio');
+
+        function calc() {
+            const t = parseInt(rngTemp.value);
+            const rh = parseInt(rngRH.value);
+            const bio = chkBio.checked;
+
+            document.getElementById('lblTemp').innerText = t + " °C";
+            document.getElementById('lblRH').innerText = rh + " %";
+
+            let risk = Math.round((t / 35) * (rh / 90) * 80);
+            if (bio) risk = Math.round(risk * 0.2);
+
+            document.getElementById('resRisk').innerText = risk + "%";
+            
+            let days = Math.round(20 - (t * 0.3) - (rh * 0.1));
+            if (bio) days = Math.round(days * 2.2);
+            document.getElementById('resDays').innerText = Math.max(3, days) + " วัน";
+        }
+
+        rngTemp.addEventListener('input', calc);
+        rngRH.addEventListener('input', calc);
+        chkBio.addEventListener('change', calc);
+
+        window.addEventListener('load', () => {
+            init3D();
+            initCharts();
+            calc();
+        });
+    </script>
+</body>
+</html>
